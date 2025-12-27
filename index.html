@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>Vibration Button</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: #111;
+      margin: 0;
+    }
+    button {
+      font-size: 24px;
+      padding: 30px 50px;
+      border-radius: 16px;
+      border: none;
+      background: #ff4d4d;
+      color: white;
+      cursor: pointer;
+      touch-action: none; /* 長押し時の誤動作防止 */
+    }
+    button:active {
+      transform: scale(0.97);
+    }
+  </style>
+</head>
+<body>
+
+<button id="vibeBtn">押してる間 振動</button>
+
+<script>
+  const btn = document.getElementById("vibeBtn");
+  let vibrating = false;
+
+  function startVibration() {
+    if (!navigator.vibrate) return;
+    vibrating = true;
+
+    // 100ms振動 → 0ms休止 をループ
+    const loop = () => {
+      if (!vibrating) return;
+      navigator.vibrate(100);
+      setTimeout(loop, 100);
+    };
+    loop();
+  }
+
+  function stopVibration() {
+    vibrating = false;
+    if (navigator.vibrate) {
+      navigator.vibrate(0);
+    }
+  }
+
+  // スマホ・PC両対応
+  btn.addEventListener("pointerdown", startVibration);
+  btn.addEventListener("pointerup", stopVibration);
+  btn.addEventListener("pointerleave", stopVibration);
+  btn.addEventListener("pointercancel", stopVibration);
+</script>
+
+</body>
+</html>
