@@ -402,7 +402,7 @@ const TEXT_DATA = [
     color: "black",
     messages: [
       "・・・",
-      "「9頭」"
+      "9頭..."
     ]
   },
 
@@ -559,4 +559,5 @@ const startEnding = () => {
     }, 50); // 0.05秒後に実行
 
   }, 3000); // 3秒待機
+
 };
