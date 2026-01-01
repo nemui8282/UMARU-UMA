@@ -42,7 +42,7 @@ body {
 
 /* ▼▼▼ ここが重要：スマホで見た時の設定 ▼▼▼ */
 /* 画面幅が600px以下の端末（スマホ）では枠を消して全画面にする */
-@media (max-width: 600px) {
+@media (max-width: 180px) {
   #phone-frame {
     width: 100%;
     height: 100%;       /* 画面いっぱい */
@@ -102,4 +102,63 @@ body {
   transition: transform 0.6s ease-in;
   /* 画面の遥か上空(座標)へ飛んでいく */
   transform: translate(-50%,-1000px) rotate(180deg) !important; 
+}
+
+/* ドットフォント設定 */
+body {
+  font-family: 'DotGothic16', sans-serif;
+}
+
+/* メッセージ共通スタイル */
+.pixel-text {
+  position: absolute;
+
+  transform: translate(-50%, -50%) scale(1,1.5); /* 中心揃え */
+
+  color: white;
+  font-size: 10px; /* お好みで調整 */
+  white-space: nowrap; /* 改行させない */
+  pointer-events: auto; /* クリックできるようにする */
+  cursor: pointer;
+  z-index: 100; /* 一番手前 */
+  user-select: none;
+  text-align: center;
+}
+
+/* 赤文字用クラス */
+.red-text {
+  color: #ff4444;
+}
+
+/* 点滅するカーソル (▼) */
+.blinking-cursor {
+  display: inline-block;
+  margin-left: 5px;
+  animation: blink 1s infinite;
+  color: white;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+/*/////////////////////////////////////////////// style.css の最後に追加 */
+
+/* ローディングのドット (...) */
+.loading-dot {
+  display: inline-block;
+  animation: dot-blink 1.4s infinite both;
+  margin: 0 2px;
+}
+
+/* 左から順番に光らせるための遅延設定 */
+.loading-dot:nth-child(1) { animation-delay: 0s; }
+.loading-dot:nth-child(2) { animation-delay: 0.2s; }
+.loading-dot:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes dot-blink {
+  0% { opacity: 0.2; }
+  20% { opacity: 1; }
+  100% { opacity: 0.2; }
 }
