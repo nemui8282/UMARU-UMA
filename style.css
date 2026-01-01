@@ -1,3 +1,105 @@
-body{
-    background-color: #92c533;
+body {
+  background-color: #393939;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  /* スクロール禁止（引っ張った時に画面が動かないように） */
+  overflow: hidden;
+}
+
+/* スマホ本体の枠（PC用） */
+#phone-frame {
+  /* 固定のpxではなく、画面の高さ(vh)基準にする */
+  height: 90vh;           /* 画面の高さの90% */
+  aspect-ratio: 9 / 19.5; /* iPhoneなどの一般的な縦横比を維持 */
+  max-width: 95vw;        /* 横幅が画面からはみ出ないように */
+  
+  background: #ffffff;
+  border-radius: 40px;    /* 角丸を少し綺麗に */
+  padding: 10px;          /* 枠の太さ */
+  box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+  box-sizing: border-box; /* paddingを含めたサイズ計算にする */
+}
+
+/* 実際のゲーム画面 */
+#screen {
+  width: 100%;
+  height: 100%;
+  background: #92c533;
+  background-image: url("assets/grass.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 100% auto; /* 念のため追加 */
+  
+  border-radius: 30px;    /* 枠に合わせて少し丸く */
+  overflow: hidden;
+  position: relative;
+  /* PCでのテキスト選択などを防止 */
+  user-select: none;
+}
+
+/* ▼▼▼ ここが重要：スマホで見た時の設定 ▼▼▼ */
+/* 画面幅が600px以下の端末（スマホ）では枠を消して全画面にする */
+@media (max-width: 600px) {
+  #phone-frame {
+    width: 100%;
+    height: 100%;       /* 画面いっぱい */
+    aspect-ratio: auto; /* 比率固定を解除 */
+    border-radius: 0;   /* 角丸なし */
+    padding: 0;         /* 枠なし */
+    border: none;
+    box-shadow: none;
+  }
+  
+  #screen {
+    border-radius: 0;
+  }
+}
+
+.horse-wrap {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 0;
+  z-index: 10;
+}
+
+/* 土 */
+.soil {
+  width: 200px;
+  display: block;
+  position: absolute;
+  transform: translate(-50%,0);
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* 馬 */
+.horse {
+  width: 180px;
+  position: absolute;
+
+  transform: translate(-50%,0);
+  z-index: 1;
+
+
+  /* ドラッグ禁止系 */
+  user-select: none;           /* 選択させない */
+  -webkit-user-drag: none;     /* 画像のドラッグを禁止 (Chrome/Safari) */
+  -webkit-touch-callout: none; /* スマホ長押しのメニュー表示を禁止 (iOS) */
+  pointer-events: auto;        /* クリックイベントは有効にする */
+
+  /* 回転の中心を画像の中心に設定 */
+  transform-origin: center center;
+}
+
+/* 抜けた状態（Win!） */
+.horse.pulled {
+  /* 0.5秒かけて */
+  transition: transform 0.6s ease-in;
+  /* 画面の遥か上空(座標)へ飛んでいく */
+  transform: translate(-50%,-1000px) rotate(180deg) !important; 
 }
